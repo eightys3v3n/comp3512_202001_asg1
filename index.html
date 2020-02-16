@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>COMP 3512 Assign 1</title>
+		<h1>Where should my name be?</h1>
+
+		<link rel="stylesheet" href="index.css">
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<header>
+			<h2>HEADER STUFF :D</h2>
+		</header>
+		<section id="home">
+			<div id="home_box">
+				<h1>Movie Browser</h1>
+				<form>
+					<label for="search_query"><b>Title</b></label>
+					<input type="text" id="search_query">
+					<input type="button" value="Show Matching Movies" name="search">
+					<input type="button" value="Show All Movies" name="all_movies">
+				</form>
+			</div>
+		</section>
+		<section id="search">
+			<div id="filters_box">
+				<form id="filters" title="Movie Filters">
+					<fieldset>
+						<legend>Title</legend>	
+						<input type="text" name="title"/>
+					</fieldset>
+					
+					<fieldset id="year_filters">
+						<legend>Year</legend>
+						<div>
+						<input type="radio" id="before"/>
+						<label>Before</label>
+						<input type="number" id="before_year"/>
+
+						<input type="radio" id="after"/>
+						<label>After</label>
+						<input type="number" id="after_year"/>
+
+						<input type="radio" id="between"/>
+						<label>Between</label>
+						<input type="number" id="between_start" placeholder="1970"/>
+						<input type="number" id="between_end" placeholder="1975"/>
+						</div>
+					</fieldset>
+					<fieldset id="rating_filters">
+						<legend>Rating</legend>
+						<div>
+						<input type="radio" id="below"/>
+						<label>Below</label>
+						<input type="range" id="below_ratings" min="0" max="10"/>
+						<p class="range_value">5</p>
+
+						<input type="radio" id="below"/>
+						<label>Above</label>
+						<input type="range" id="above_ratings" min="0" max="10"/>
+						<p class="range_value">5</p>
+						
+						<input type="radio" id="below"/>
+						<label>Between</label>
+						<input type="range" id="between_ratings_start" min="0" max="10"/>
+						<p class="range_value">5</p>
+						<input type="range" id="between_ratings_end" min="0" max="10"/>
+						<p class="range_value">5</p>
+						</div>
+					</fieldset>
+					<div id="buttons">
+						<input type="submit" value="Filter"/>
+						<input type="reset" value="Clear"/>
+					</div>
+				</form>
+			</div>
+			<div id="matches">
+				stuff
+			</div>
+		</section>
+		<section id="details">
+		</section>
+	</body>
+</html>
