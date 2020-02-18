@@ -5,9 +5,14 @@ const pages = {
 	Search: "search",
 	Details: "details"
 };
-let curr_page = pages.Search;
+let curr_page = pages.Details;
+let movies;
 
 function main() {
+	fetch("http://www.randyconnolly.com/funwebdev/3rd/api/movie/movies-brief.php?id=ALL")
+	.then(response => response.json())
+	.then(data => movies = data);
+
 	switch_page(curr_page);
 }
 

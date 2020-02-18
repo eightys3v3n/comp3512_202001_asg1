@@ -6,8 +6,23 @@ html,body {
 
 header {
 	text-align: center;
-	background-color: grey;
+	background-color: rgb(230, 230, 230);
+	background-color: red;
+	/* TODO: text should be vertically centered */
+	height: 4em;
+	margin-bottom: 10px;
 }
+
+h1 {
+	font-size: 1.25em;
+	margin: 10px 0px 0px 0px;
+}
+
+h2 {
+	font-size: 1.15em;
+
+}
+
 
 /* Home page */
 #home {
@@ -66,18 +81,29 @@ header {
 }
 
 #search div {
-	background-color: grey;
-	width: 100%;
-	height: 100%;
-}
-
-#search #matches {
-	grid-column-start: 2;
+	background-color: rgb(230, 230, 230);
 }
 
 #search #filters_box {
 	grid-column-start: 1;
-	padding: 10px 10px 10px 10px;
+
+	display: grid;
+	grid-template-columns: 10fr 1fr;
+}
+
+#search #filters_box #filters {
+	grid-column-start: 1;
+}
+
+#search #filters_box #hide-filters {
+	grid-column-start: 2;
+	grid-row-start: 1;
+	grid-row-end: span 2;
+
+	width: 2em;
+	background-color: red;
+	align-content: center;
+	/* TODO: arrow should be vertically centered */
 }
 
 #search #year_filters div {
@@ -101,7 +127,7 @@ header {
 }
 
 #search input[name=title] {
-	width: ;
+	width: 99%;
 }
 
 #search fieldset div input[type="radio"] {
@@ -126,6 +152,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
+	margin-bottom: 10px;
 }
 
 #search #buttons input {
@@ -133,4 +160,38 @@ header {
 	height: 2em;
 }
 
+#search #matches {
+	grid-column-start: 2;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+#search #matches-header {
+	display: grid;
+	grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
+}
+
+#search #matches-header #title {
+	grid-column-start: 2;
+}
+
+#search #matches .match {
+	display: grid;
+	grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
+	height: 100px; /* This should be set to the height of the icon images*/
+	align-content: center;
+}
+
+#search #matches .match .year, .rating {
+	color: grey;
+}
+
+#search input[type="button"], input[type="submit"], input[type="reset"] {
+	border: 1px solid blue;
+	background-color: rgb(200, 200, 200);
+	border-radius: 4px;
+	font-weight: bold;
+}
+
 /* Details page */
+

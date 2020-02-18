@@ -25,14 +25,15 @@
 		</section>
 		<section id="search">
 			<div id="filters_box">
+				<h1><center>Movie Filters</center></h1>
 				<form id="filters" title="Movie Filters">
 					<fieldset>
-						<legend>Title</legend>	
+						<legend><h2>Title</h2></legend>	
 						<input type="text" name="title"/>
 					</fieldset>
 					
 					<fieldset id="year_filters">
-						<legend>Year</legend>
+						<legend><h2>Year</h2></legend>
 						<div>
 						<input type="radio" id="before"/>
 						<label>Before</label>
@@ -49,7 +50,7 @@
 						</div>
 					</fieldset>
 					<fieldset id="rating_filters">
-						<legend>Rating</legend>
+						<legend><h2>Rating</h2></legend>
 						<div>
 						<input type="radio" id="below"/>
 						<label>Below</label>
@@ -74,12 +75,44 @@
 						<input type="reset" value="Clear"/>
 					</div>
 				</form>
+				<div id="hide-filters">ARROW</div>
 			</div>
 			<div id="matches">
-				stuff
+				<h1><center>List / Matches<center></h1>
+				<div id="matches-header">
+					<div id="title"><h2>Title</h2></div>
+					<div><h2>Year</h2></div>
+					<div><h2>Rating</h2></div>
+				</div>
+				<div class="match">
+					<img class="icon"></img>
+					<div class="title">This is a movie title</div>
+					<div class="year">1999</div>
+					<div class="rating">1.1</div>
+					<input type="button" name="view" value="View"/>
+				</div>
 			</div>
 		</section>
 		<section id="details">
+			<div id="info">
+				<div id="text">
+				</div>
+				<div id="companies">
+				</div>
+				<div id="countries">
+				</div>
+				<div id="keywords">
+				</div>
+				<div id="genres">
+				</div>
+				<div id="images">
+	
+			</div>
+			<div>
+				<div id="cast">
+				</div>
+				<div id="crew">
+				</div>
 		</section>
 	</body>
 </html>
