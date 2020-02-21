@@ -7,7 +7,6 @@ html,body {
 header {
 	text-align: center;
 	background-color: rgb(230, 230, 230);
-	background-color: red;
 	/* TODO: text should be vertically centered */
 	height: 4em;
 	margin-bottom: 10px;
@@ -194,4 +193,65 @@ input[type="button"] {
 }
 
 /* Details page */
+#details {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	
+	grid-gap: 20px;
+	padding: 20px 20px 20px 20px;
 
+	background-color: rgb(230, 230, 230);
+}
+
+#details #images img {
+	width: 100%;
+}
+
+#details .border {
+	border: 1px solid black;
+	padding: 15px 15px 15px 15px;
+	margin-top: 10px;
+}
+
+#details #text h1 {
+	display: inline;
+}
+
+#details #text input[type="button"] {
+	float: right;
+}
+
+#details #images {
+	text-align: center;
+}
+
+#details #castcrew {
+	padding: 10px 10px 10px 10px;
+
+	background-color: white;
+	position: relative;
+	top: -1em;
+}
+
+#details #cast {
+	display: grid; /* This is chagned based on the tabs */
+	grid-template-columns: 1fr 1fr;
+}
+
+#details #crew {
+	display: none; /* This is changed based on the tabs */
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+#details input[type="button"] {
+	background-color: rgb(200, 200, 200);
+
+	border: 1px solid blue;
+	border-radius: 4px;
+	width: 8em;
+}
+
+#details #cast-crew-buttons input {
+	padding-bottom: 1em;
+	height: 3em;
+}
