@@ -88,21 +88,29 @@ input[type="button"] {
 
 	display: grid;
 	grid-template-columns: 10fr 1fr;
+	grid-template-rows: 1fr 1fr auto;
+	align-content: start;
 }
 
 #search #filters_box #filters {
 	grid-column-start: 1;
+	grid-row-start: 1;
 }
 
-#search #filters_box #hide-filters {
+#search #filters_box #hide_filters {
 	grid-column-start: 2;
 	grid-row-start: 1;
-	grid-row-end: span 2;
+	grid-row-end: span 3;
 
 	width: 2em;
 	background-color: red;
-	align-content: center;
-	/* TODO: arrow should be vertically centered */
+}
+
+#search #filters_box #hide_filters p {
+	font-size: 300%;
+	color: rgba(200, 200, 200, 1);
+	position: fixed;
+	top: 50%;
 }
 
 #search #year_filters div {
@@ -167,22 +175,40 @@ input[type="button"] {
 
 #search #matches-header {
 	display: grid;
-	grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
+	grid-template-columns: 1.5fr 5fr 1fr 1fr 1fr;
+	grid-gap: 10px;
 }
 
 #search #matches-header #title {
 	grid-column-start: 2;
 }
 
-#search #matches .match {
-	display: grid;
-	grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
-	height: 100px; /* This should be set to the height of the icon images*/
-	align-content: center;
+#search #matches ul {
+	display: flex;
+	flex-direction: column;
+
+	padding-left: 0px;
 }
 
-#search #matches .match .year, .rating {
+#search #matches li {
+	display: grid;
+	grid-template-columns: 1.5fr 5fr 1fr 1fr 1fr;
+	grid-gap: 10px;
+	margin: 5px 0px 5px 0px;
+
+	border: 1px solid red;
+}
+
+#search #matches li .year, .rating {
 	color: grey;
+}
+
+#search ul li img {
+	width: 92px;
+}
+
+#search ul li h3, p, input {
+	margin: auto 0px auto 0px;
 }
 
 #search input[type="button"], input[type="submit"], input[type="reset"] {
@@ -225,12 +251,19 @@ input[type="button"] {
 	text-align: center;
 }
 
+#details #images input {
+	margin-bottom: 15px; 
+}
+
 #details #castcrew {
 	padding: 10px 10px 10px 10px;
 
 	background-color: white;
-	position: relative;
-	top: -1em;
+}
+
+#details #cast-crew-buttons input[type="button"] {	
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 }
 
 #details #cast {
@@ -251,7 +284,6 @@ input[type="button"] {
 	width: 8em;
 }
 
-#details #cast-crew-buttons input {
-	padding-bottom: 1em;
-	height: 3em;
+#details #cast-crew-buttons .active {
+	background-color: white;
 }

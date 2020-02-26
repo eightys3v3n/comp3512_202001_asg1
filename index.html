@@ -25,8 +25,8 @@
 		</section>
 		<section id="search">
 			<div id="filters_box">
-				<h1><center>Movie Filters</center></h1>
 				<form id="filters" title="Movie Filters">
+					<h1><center>Movie Filters</center></h1>
 					<fieldset>
 						<legend><h2>Title</h2></legend>	
 						<input type="text" name="title"/>
@@ -75,22 +75,34 @@
 						<input type="reset" value="Clear"/>
 					</div>
 				</form>
-				<div id="hide-filters">ARROW</div>
+				<div id="hide_filters">
+					<p>&lt</p>
+				</div>
 			</div>
 			<div id="matches">
 				<h1><center>List / Matches<center></h1>
 				<div id="matches-header">
 					<div id="title"><h2>Title</h2></div>
-					<div><h2>Year</h2></div>
-					<div><h2>Rating</h2></div>
+					<h2>Year</h2>
+					<h2>Rating</h2>
 				</div>
-				<div class="match">
-					<img class="icon"></img>
-					<div class="title">This is a movie title</div>
-					<div class="year">1999</div>
-					<div class="rating">1.1</div>
-					<input type="button" name="view" value="View"/>
-				</div>
+				<ul>
+					<li>
+						<img class="icon" src="https://assets.fireside.fm/file/fireside-images/podcasts/images/b/bc7f1faf-8aad-4135-bb12-83a8af679756/cover.jpg?v=3"></img>
+						<h3 class="title">This is a movie title</h3>
+						<p class="year">1999</p>
+						<p class="rating">1.1</p>
+						<input type="button" name="view" value="View"/>
+					</li>
+					<li>
+						<img class="icon" src="https://assets.fireside.fm/file/fireside-images/podcasts/images/b/bc7f1faf-8aad-4135-bb12-83a8af679756/cover.jpg?v=3"></img>
+						<h3 class="title">This is a movie title</h3>
+						<p class="year">1999</p>
+						<p class="rating">1.1</p>
+						<input type="button" name="view" value="View"/>
+					</li>
+
+				</ul>
 			</div>
 		</section>
 		<section id="details">
@@ -126,7 +138,7 @@
 			</div>
 			<div>
 				<div id="cast-crew-buttons">
-					<input type="button" value="Cast">
+					<input type="button" value="Cast" class="active">
 					<input type="button" value="Crew">
 				</div>
 				<div id="castcrew">
