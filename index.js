@@ -24,6 +24,8 @@ function main() {
 		.addEventListener("click", e => { switch_page(pages.Search, document.querySelector("#home #search_query").value); });
 	document.querySelector("#search #filters_box #hide_filters")
 		.addEventListener("click", toggle_filters);
+	document.querySelector("#search #filters #buttons #update_filters")
+		.addEventListener("click", refresh_filters);
 }
 
 function switch_page(page, data) {
@@ -31,6 +33,10 @@ function switch_page(page, data) {
 	let search_page = document.querySelector("#search");
 	let details_page = document.querySelector("#details");
 	let header = document.querySelector("header");
+
+	if (!data) {
+		data = "";
+	}
 
 	switch(page) {
 		case pages.Home:
@@ -45,7 +51,7 @@ function switch_page(page, data) {
 			details.style.display = "none";
 			header.style.display = "";
 			document.querySelector("#search #filters input[name='title']").value = data;
-			search_movies(data);
+			refresh_filters();
 			break;
 		case pages.Details:
 			home_page.style.display = "none";
@@ -74,8 +80,9 @@ function toggle_filters() {
 	}
 }
 
-function search_movies(query) {
-
+function refresh_filters() {
+	let title = document.querySelector("#search #filters input[name='title']").value;
+	console.log("Searching for title: " + title);
 }
 
 function populate_movies(data) {
