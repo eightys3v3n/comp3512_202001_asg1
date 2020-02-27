@@ -11,13 +11,50 @@ let curr_page = pages.Search;
 let movies;
 let movie_id;
 
+function Filter(title, year_between, rating_between) {
+	if (title) {
+		this.title = title.toLowerCase();
+	} else {
+		this.title = "";
+	}
+
+	if (year_between) {
+		console.assert(year_between.length === 2, "year_between must be an array with two elements");
+		if (year_between[0] && year_between[1]) {
+			console.assert(year_between[0] <= year_between[1], "After year must be <= than Before year when specified");
+		}
+		this.year = {after: year_between[0], before: year_between[1]};
+	} else {
+		this.year = {after: 0, before: Number.MAX_SAFE_INTEGER};
+	}
+
+	if (rating_between) {
+		console.assert(rating_between.length === 2, "rating_between must be an array with two elements");
+		if (rating_between[0] && rating_between[1]) {
+			console.assert(rating_between[0] <= rating_between[1], "Above rating must be >= Below rating when specified");
+		}
+		this.rating = {after: rating_between[0], before: rating_between[1]};
+	} else {
+		this.rating = {after: 0, before: 10};
+	}
+}
+
 function main() {
 	fetch(api_url+"movies-brief.php?id=ALL")
 		.then(response => response.json())
-		.then(data => populate_movies(data));
+		.then(data => {
+			movies = data;
+			populate_movies(data)
+		});
 
 	switch_page(curr_page);
 
+	document.querySelector("#filters")
+		.addEventListener("keyup", e => {
+			if (e.keyCode === 13) {
+				refresh_filters();
+			}
+		});
 	document.querySelector("#home input[name='all_movies']")
 		.addEventListener("click", e => { switch_page(pages.Search, ""); });
 	document.querySelector("#home input[name='search']")
@@ -82,16 +119,25 @@ function toggle_filters() {
 
 function refresh_filters() {
 	let title = document.querySelector("#search #filters input[name='title']").value;
-	console.log("Searching for title: " + title);
+	let year_between = get_year_between_filter();
+
+	filter = new Filter(title);
+	filtered_movies = filter_movies(filter);
+	populate_movies(filtered_movies);
 }
 
-function populate_movies(data) {
-	movies = data;
+function get_year_between_filter() {
+	let year = [undefined, undefined];
+	let selector = document.querySelector("#search #filters #year_filters #before
+
+}
+
+function populate_movies(movies_list) {
 	let matches = document.querySelector("#search #matches ul");
 
-	//matches.textContent = "";
+	matches.innerHTML = "";
 
-	for (let movie of filtered_movies()) {
+	for (let movie of movies_list) {
 		add_movie(matches, movie);
 	}
 }
@@ -134,7 +180,19 @@ function year_of(date_str) {
 	return date_str.split("-")[0];
 }
 
-function filtered_movies() {
-	return movies;
+function filter_movies(filter) {
+	if (!movies) {
+		console.warn("Movies attempted to be populated but they haven't been fetched yet.");
+		return [];
+	}
+
+	filtered_movies = [];
+	for (let movie of movies) {
+		if (movie.title.toLowerCase().includes(filter.title)) { // In production I would find or implemenet a fuzzy search algorithm.
+			filtered_movies.push(movie);
+		}
+	}
+
+	return filtered_movies;
 }
 
