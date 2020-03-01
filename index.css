@@ -1,6 +1,6 @@
 html,body {
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	margin: 0px 0px 0px 0px;
 }
 
@@ -82,6 +82,10 @@ input[type="button"] {
 	grid-gap: 10px;
 }
 
+#search #matches #loading {
+	width: 100%;
+}
+
 #search div {
 	background-color: rgb(230, 230, 230);
 }
@@ -91,7 +95,7 @@ input[type="button"] {
 
 	display: grid;
 	grid-template-columns: 10fr 1fr;
-	grid-template-rows: 1fr 1fr auto;
+	grid-template-rows: auto auto;
 	align-content: start;
 }
 
@@ -174,6 +178,7 @@ input[type="button"] {
 	grid-column-start: 2;
 	padding-right: 10px;
 	padding-left: 10px;
+	height: 91vh;
 }
 
 #search #matches-header {
@@ -187,9 +192,11 @@ input[type="button"] {
 }
 
 #search #matches ul {
-	display: flex;
+	/*display: flex;*/
 	flex-direction: column;
 
+	height: 86%;
+	overflow: scroll;
 	padding-left: 0px;
 }
 

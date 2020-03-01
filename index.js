@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", main);
 
 const api_url = "http://www.randyconnolly.com/funwebdev/3rd/api/movie/";
 const poster_url = "https://image.tmdb.org/t/p/";
+const tmdb_url = "https://themoviedb.org/movie/";
+const imdb_url = "https://imdb.com/title/";
 const pages = {
 	Home: "home",
 	Search: "search",
@@ -37,18 +39,40 @@ function Filter(title, year_between, rating_between) {
 function get_movies() {
 	try {
 		movies = JSON.parse(window.localStorage.getItem("movies"));
+		movies = movies.sort((a,b) => {
+			if (a.title < b.title) {
+				return -1;
+			} else if (a.title > b.title) {
+				return 1;
+			} else {
+				return 1;
+			}
+		});
 		populate_movies(movies);
-	} catch(e) {}
+		hide_loading();
+	} catch(e) {
+		console.log("Failed to get movies from local storage.");
+	}
 
 	if (!movies) {
+		console.log("Downloading movies...");
+		show_loading();
 		fetch(api_url+"movies-brief.php?id=ALL")
 			.then(response => response.json())
 			.then(data => {
 				window.localStorage.setItem("movies", JSON.stringify(data));
 				populate_movies(data)
+				hide_loading();
 			});
 	}
+}
 
+function show_loading() {
+	document.querySelector("#search #matches #loading").style.display = "";
+}
+
+function hide_loading() {
+	document.querySelector("#search #matches #loading").style.display = "none";
 }
 
 function main() {
@@ -191,6 +215,12 @@ function switch_movie(movie) {
 	let tagline = document.querySelector("#details #info #text #movie_stats #tagline");
 	tagline.textContent = movie.tagline;
 
+	let imdb = document.querySelector("#details #info #text #movie_stats #imdb");
+	imdb.href = imdb_url + movie.imdb_id;
+	
+	let tmdb = document.querySelector("#details #info #text #movie_stats #tmdb");
+	tmdb.href = tmdb_url + movie.tmdb_id;
+	
 	let popularity = document.querySelector("#details #info #text #movie_stats #popularity");
 	popularity.textContent = movie.ratings.popularity;
 
@@ -230,7 +260,6 @@ function refresh_filters() {
 
 	console.log(rating_between);
 	filter = new Filter(title, year_between, rating_between);
-	console.log(filter);
 	filtered_movies = filter_movies(filter);
 	populate_movies(filtered_movies);
 }
@@ -295,8 +324,13 @@ function populate_movies(movies_list) {
 
 	matches.innerHTML = "";
 
-	for (let movie of movies_list) {
-		add_movie(matches, movie);
+	if (movies_list.length === 0) {
+		document.querySelector("#search #matches #no_matches").style.display = "";
+	} else {
+		document.querySelector("#search #matches #no_matches").style.display = "none";
+		for (let movie of movies_list) {
+			add_movie(matches, movie);
+		}
 	}
 }
 
