@@ -228,6 +228,7 @@ function refresh_filters() {
 	let year_between = get_year_between_filter();
 	let rating_between = get_rating_between_filter();
 
+	console.log(rating_between);
 	filter = new Filter(title, year_between, rating_between);
 	console.log(filter);
 	filtered_movies = filter_movies(filter);
@@ -267,10 +268,10 @@ function get_rating_between_filter() {
 	let above = document.querySelector("#search #filters #rating_filters #above");
 	let between = document.querySelector("#search #filters #rating_filters #between");
 
-	if (before.checked) {
+	if (below.checked) {
 		rating[1] = document.querySelector("#search #filters #rating_filters #below_rating").value;
 		rating[1] = parseInt(rating[1]);
-	} else if (after.checked) {
+	} else if (above.checked) {
 		rating[0] = document.querySelector("#search #filters #rating_filters #above_rating").value;
 		rating[0] = parseInt(rating[0]);
 	} else if (between.checked) {
@@ -279,10 +280,12 @@ function get_rating_between_filter() {
 		rating = [parseInt(rating[0]), parseInt(rating[1])];
 	}
 
-	if (rating[0] === "")
+	if (rating[0] === "") {
 		rating[0] = undefined;
-	if (rating[1] === "")
+	}
+	if (rating[1] === "") {
 		rating[1] = undefined;
+	}
 
 	return rating;
 }
