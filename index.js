@@ -7,7 +7,6 @@ const pages = {
 	Search: "search",
 	Details: "details"
 };
-let curr_page = pages.Search;
 let movies;
 let movie_id;
 
@@ -24,8 +23,6 @@ function Filter(title, year_between, rating_between) {
 			console.assert(year_between[0] <= year_between[1], "After year must be <= than Before year when specified");
 		}
 		this.year = {after: year_between[0], before: year_between[1]};
-	} else {
-		this.year = {after: 0, before: Number.MAX_SAFE_INTEGER};
 	}
 
 	if (rating_between) {
@@ -33,21 +30,31 @@ function Filter(title, year_between, rating_between) {
 		if (rating_between[0] && rating_between[1]) {
 			console.assert(rating_between[0] <= rating_between[1], "Above rating must be >= Below rating when specified");
 		}
-		this.rating = {after: rating_between[0], before: rating_between[1]};
-	} else {
-		this.rating = {after: 0, before: 10};
+		this.rating = {above: rating_between[0], below: rating_between[1]};
 	}
 }
 
-function main() {
-	fetch(api_url+"movies-brief.php?id=ALL")
-		.then(response => response.json())
-		.then(data => {
-			movies = data;
-			populate_movies(data)
-		});
+function get_movies() {
+	try {
+		movies = JSON.parse(window.localStorage.getItem("movies"));
+		populate_movies(movies);
+	} catch(e) {}
 
-	switch_page(curr_page);
+	if (!movies) {
+		fetch(api_url+"movies-brief.php?id=ALL")
+			.then(response => response.json())
+			.then(data => {
+				window.localStorage.setItem("movies", JSON.stringify(data));
+				populate_movies(data)
+			});
+	}
+
+}
+
+function main() {
+	get_movies();
+
+	switch_page(pages.Home);
 
 	document.querySelector("#filters")
 		.addEventListener("keyup", e => {
@@ -55,6 +62,13 @@ function main() {
 				refresh_filters();
 			}
 		});
+	document.querySelector("#home")
+		.addEventListener("keyup", e => {
+			if (e.keyCode === 13) {
+				switch_page(pages.Search, document.querySelector("#home #search_query").value);
+			}
+		});
+
 	document.querySelector("#home input[name='all_movies']")
 		.addEventListener("click", e => { switch_page(pages.Search, ""); });
 	document.querySelector("#home input[name='search']")
@@ -63,6 +77,57 @@ function main() {
 		.addEventListener("click", toggle_filters);
 	document.querySelector("#search #filters #buttons #update_filters")
 		.addEventListener("click", refresh_filters);
+	document.querySelector("#search #filters #year_filters #before_year")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #year_filters #before").checked = true;
+		});
+	document.querySelector("#search #filters #year_filters #after_year")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #year_filters #after").checked = true;
+		});
+	document.querySelector("#search #filters #year_filters #between_start")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #year_filters #between").checked = true;
+		});
+	document.querySelector("#search #filters #year_filters #between_end")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #year_filters #between").checked = true;
+		});
+	document.querySelector("#search #filters #rating_filters #below_rating")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #below").checked = true;
+		});
+	document.querySelector("#search #filters #rating_filters #above_rating")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #above").checked = true;
+		});
+	document.querySelector("#search #filters #rating_filters #between_start")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #between").checked = true;
+		});
+	document.querySelector("#search #filters #rating_filters #between_end")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #between").checked = true;
+		});
+	document.querySelector("#search #filters #rating_filters #below_rating")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #below_range_value").textContent = e.target.value;
+		});
+	document.querySelector("#search #filters #rating_filters #above_rating")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #above_range_value").textContent = e.target.value;
+		});
+	document.querySelector("#search #filters #rating_filters #between_start")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #between_start_value").textContent = e.target.value;
+		});
+	document.querySelector("#search #filters #rating_filters #between_end")
+		.addEventListener("click", e => {
+			document.querySelector("#search #filters #rating_filters #between_end_value").textContent = e.target.value;
+		});
+
+	document.querySelector("#details input[name='close']")
+		.addEventListener("click", e => {switch_page(pages.Search)});
 }
 
 function switch_page(page, data) {
@@ -84,21 +149,62 @@ function switch_page(page, data) {
 			break;
 		case pages.Search:
 			home_page.style.display = "none";
-			search_page.style.display = "";
+			search_page.style.display = "grid";
 			details.style.display = "none";
 			header.style.display = "";
-			document.querySelector("#search #filters input[name='title']").value = data;
-			refresh_filters();
+			if (data) {
+				document.querySelector("#search #filters input[name='title']").value = data;
+				refresh_filters();
+			}
 			break;
 		case pages.Details:
 			home_page.style.display = "none";
 			search_page.style.display = "none";
-			details.style.display = "";
+			details.style.display = "grid";
 			header.style.display = "";
-			movie_id = data;
+			switch_movie(data);
 			break;
 		default:
 	}
+}
+
+function switch_movie(movie) {
+	// I realize that using querySelector to fill in this information is bad practice.
+	// I should have erased the entire contents of the areas to be modified and recreated them with createElement.
+	// I imagine createElement would have been faster.
+
+	let title = document.querySelector("#details #info #text h1");
+	title.textContent = movie.title;
+
+	let release = document.querySelector("#details #info #text #movie_stats #release_date");
+	release.textContent = movie.release_date;
+
+	let revenue = document.querySelector("#details #info #text #movie_stats #revenue");
+	revenue.textContent = movie.revenue.toLocaleString('en-US', {
+		style: 'currency',
+		currency: 'USD',
+	});
+
+	let runtime = document.querySelector("#details #info #text #movie_stats #runtime");
+	runtime.textContent = movie.runtime;
+
+	let tagline = document.querySelector("#details #info #text #movie_stats #tagline");
+	tagline.textContent = movie.tagline;
+
+	let popularity = document.querySelector("#details #info #text #movie_stats #popularity");
+	popularity.textContent = movie.ratings.popularity;
+
+	let average_rating = document.querySelector("#details #info #text #movie_stats #average_rating");
+	average_rating.textContent = movie.ratings.average;
+
+	let ratings = document.querySelector("#details #info #text #movie_stats #ratings");
+	ratings.textContent = movie.ratings.count;
+	
+	let overview = document.querySelector("#details #info #text #movie_stats #overview");
+	overview.textContent = movie.overview;
+
+	let poster = document.querySelector("#details #images img");
+	poster.src = poster_url + "w500" + movie.poster;
 }
 
 function toggle_filters() {
@@ -120,16 +226,65 @@ function toggle_filters() {
 function refresh_filters() {
 	let title = document.querySelector("#search #filters input[name='title']").value;
 	let year_between = get_year_between_filter();
+	let rating_between = get_rating_between_filter();
 
-	filter = new Filter(title);
+	filter = new Filter(title, year_between, rating_between);
+	console.log(filter);
 	filtered_movies = filter_movies(filter);
 	populate_movies(filtered_movies);
 }
 
 function get_year_between_filter() {
 	let year = [undefined, undefined];
-	let selector = document.querySelector("#search #filters #year_filters #before
+	let before = document.querySelector("#search #filters #year_filters #before");
+	let after = document.querySelector("#search #filters #year_filters #after");
+	let between = document.querySelector("#search #filters #year_filters #between");
 
+	if (before.checked) {
+		year[1] = document.querySelector("#search #filters #year_filters #before_year").value;
+		year[1] = parseInt(year[1]);
+	} else if (after.checked) {
+		year[0] = document.querySelector("#search #filters #year_filters #after_year").value;
+		year[0] = parseInt(year[0]);
+	} else if (between.checked) {
+		year[0] = document.querySelector("#search #filters #year_filters #between_start").value;
+		year[1] = document.querySelector("#search #filters #year_filters #between_end").value;
+		year = [parseInt(year[0]), parseInt(year[1])];
+		year[1] += 1;
+	}
+
+	if (year[0] === "")
+		year[0] = undefined;
+	if (year[1] === "")
+		year[1] = undefined;
+
+	return year;
+}
+
+function get_rating_between_filter() {
+	let rating = [undefined, undefined];
+	let below = document.querySelector("#search #filters #rating_filters #below");
+	let above = document.querySelector("#search #filters #rating_filters #above");
+	let between = document.querySelector("#search #filters #rating_filters #between");
+
+	if (before.checked) {
+		rating[1] = document.querySelector("#search #filters #rating_filters #below_rating").value;
+		rating[1] = parseInt(rating[1]);
+	} else if (after.checked) {
+		rating[0] = document.querySelector("#search #filters #rating_filters #above_rating").value;
+		rating[0] = parseInt(rating[0]);
+	} else if (between.checked) {
+		rating[0] = document.querySelector("#search #filters #rating_filters #between_start").value;
+		rating[1] = document.querySelector("#search #filters #rating_filters #between_end").value;
+		rating = [parseInt(rating[0]), parseInt(rating[1])];
+	}
+
+	if (rating[0] === "")
+		rating[0] = undefined;
+	if (rating[1] === "")
+		rating[1] = undefined;
+
+	return rating;
 }
 
 function populate_movies(movies_list) {
@@ -174,6 +329,7 @@ function add_movie(element, movie) {
 	li.appendChild(view_btn);
 
 	element.appendChild(li);
+	li.addEventListener("click", e => {switch_page(pages.Details, movie)});
 }
 
 function year_of(date_str) {
@@ -186,11 +342,24 @@ function filter_movies(filter) {
 		return [];
 	}
 
-	filtered_movies = [];
+	let filtered_movies = [];
 	for (let movie of movies) {
-		if (movie.title.toLowerCase().includes(filter.title)) { // In production I would find or implemenet a fuzzy search algorithm.
-			filtered_movies.push(movie);
-		}
+		if (!movie.title.toLowerCase().includes(filter.title)) // in production this would be a fuzzy search rather than includes.
+			continue;
+
+		let date = new Date(movie.release_date);
+		if (filter.year.before && filter.year.before <= date.getFullYear())
+			continue;
+		if (filter.year.after && filter.year.after > date.getFullYear())
+			continue;
+
+		let rating = movie.ratings.average;
+		if (filter.rating.below && rating > filter.rating.below)
+			continue;
+		if (filter.rating.above && rating < filter.rating.above)
+			continue;
+
+		filtered_movies.push(movie);
 	}
 
 	return filtered_movies;

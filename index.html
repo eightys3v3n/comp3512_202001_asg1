@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		<title>COMP 3512 Assign 1</title>
-		<h1>Where should my name be?</h1>
 
 		<link rel="stylesheet" href="index.css">
 		<script src="index.js"></script>
 	</head>
 	<body>
 		<header>
-			<h2>HEADER STUFF :D</h2>
+			<h2>COMP 3512 Assignment 1</h2>
+			<h3>Terrence Plunkett</h3>
 		</header>
 		<section id="home">
 			<div id="home_box">
 				<h1>Movie Browser</h1>
-				<form>
+				<div id="form">
 					<label for="search_query"><b>Title</b></label>
 					<input type="text" id="search_query">
 					<input type="button" value="Show Matching Movies" name="search">
 					<input type="button" value="Show All Movies" name="all_movies">
-				</form>
+				</div>
 			</div>
 		</section>
 		<section id="search">
@@ -35,15 +36,15 @@
 					<fieldset id="year_filters">
 						<legend><h2>Year</h2></legend>
 						<div>
-						<input type="radio" id="before"/>
+						<input type="radio" name="year_selector" value="before" id="before"/>
 						<label>Before</label>
 						<input type="number" id="before_year" min="1000"/>
 
-						<input type="radio" id="after" min="1000"/>
+						<input type="radio" name="year_selector" value="after" id="after"/>
 						<label>After</label>
-						<input type="number" id="after_year"/>
+						<input type="number" id="after_year" min="1000"/>
 
-						<input type="radio" id="between"/>
+						<input type="radio" name="year_selector" value="between" id="between"/>
 						<label>Between</label>
 						<input type="number" id="between_start" placeholder="1970" min="1000"/>
 						<input type="number" id="between_end" placeholder="1975" min="1000"/>
@@ -52,22 +53,22 @@
 					<fieldset id="rating_filters">
 						<legend><h2>Rating</h2></legend>
 						<div>
-						<input type="radio" id="below"/>
+						<input type="radio" name="rating_selector" id="below"/>
 						<label>Below</label>
-						<input type="range" id="below_ratings" min="0" max="10"/>
-						<p class="range_value">5</p>
+						<input type="range" id="below_rating" min="0" max="10" value="10"/>
+						<p id="below_range_value" class="range_value">10</p>
 
-						<input type="radio" id="below"/>
+						<input type="radio" name="rating_selector" id="above"/>
 						<label>Above</label>
-						<input type="range" id="above_ratings" min="0" max="10"/>
-						<p class="range_value">5</p>
+						<input type="range" id="above_rating" min="0" max="10" value="0"/>
+						<p id="above_range_value" class="range_value">0</p>
 						
-						<input type="radio" id="below"/>
+						<input type="radio" name="rating_selector" id="between"/>
 						<label>Between</label>
-						<input type="range" id="between_ratings_start" min="0" max="10"/>
-						<p class="range_value">5</p>
-						<input type="range" id="between_ratings_end" min="0" max="10"/>
-						<p class="range_value">5</p>
+						<input type="range" id="between_start" min="0" max="10" value="0"/>
+						<p id="between_start_value" class="range_value">0</p>
+						<input type="range" id="between_end" min="0" max="10" value="10"/>
+						<p id="between_end_value" class="range_value">10</p>
 						</div>
 					</fieldset>
 					<div id="buttons">
@@ -106,14 +107,26 @@
 			</div>
 		</section>
 		<section id="details">
+			<input type="button" name="close" value="Close">
 			<div id="info">
 				<div id="text">
 					<h1>Movie Title!</h1>
 					<input type="button" value="Speak">
-					<p>
-					This is release date, revenuem runtime, tagline, IMDB link, TMDB link<br>
-					Overview, Ratings (popularity, average, count)
-					</p>
+					<div id="movie_stats">
+						<p>
+							<b>Release date:</b> <div id="release_date"></div><br/>
+							<b>Revenue:</b> <div id="revenue"></div><br/>
+							<b>Runtime:</b> <div id="runtime"></div> minutes<br/>
+							<b>Tagline:</b> <div id="tagline"></div><br/>
+							<b>Links:</b> <a href="">IMDB</a>, <a href="">TMDB</a><br/>
+							<b>Popularity:</b> <div id="popularity"></div><br/>
+							<b>Average rating:</b> <div id="average_rating"></div><br/>
+							<b>Ratings:</b> <div id="ratings"></div><br/>
+
+							<h2>Overview</h2>
+							<div id="overview"></div>
+						</p>
+					</div>
 				</div>
 				<div id="companies" class="border">
 					<h2>Companies</h2>
@@ -133,7 +146,6 @@
 				</div>
 			</div>
 			<div id="images">
-				<input type="button" value="Close">
 				<img src="https://marmelab.com/images/blog/ascii-art-converter/homer.png">
 			</div>
 			<div>

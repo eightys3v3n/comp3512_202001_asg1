@@ -10,7 +10,14 @@ header {
 	/* TODO: text should be vertically centered */
 	height: 4em;
 	margin-bottom: 10px;
+	padding-top: 5px;
 }
+
+header h2, h3 {
+	margin-bottom: 4px;
+	margin-top: 4px;
+}
+
 
 h1 {
 	font-size: 1.25em;
@@ -25,6 +32,7 @@ input[type="button"] {
 	height: 2em;
 	width: auto;
 	font-weight: bold;
+	border-radius: 4px;
 }
 
 /* Home page */
@@ -41,17 +49,14 @@ input[type="button"] {
 	margin-left: auto;
 	margin-right: auto;
 
-	padding-top: 1em;
-	padding-right: 1em;
-	padding-bottom: 1em;
-	padding-left: 1em;
-	max-width: 400px;
+	padding: 1em 1em 1em 1em;
 	
 	background-color: white;
 	text-align: center;
+	max-width: 600px;
 }
 
-#home form {
+#home #form {
 	display: grid;
 	grid-template-columns: auto auto auto;
 	grid-gap: 1em;
@@ -66,15 +71,13 @@ input[type="button"] {
 	grid-column-end: span 2;
 }
 
-
-
 #home input[name="search"] {
 	grid-column-start: 2;
 }
 
 /* Search page */
 #search {
-	display: grid;
+	display: none; /* changed to grid on page switch */
 	grid-template-columns: 1fr 2fr;
 	grid-gap: 10px;
 }
@@ -211,7 +214,7 @@ input[type="button"] {
 	margin: auto 0px auto 0px;
 }
 
-#search input[type="button"], input[type="submit"], input[type="reset"] {
+#search input[type="button"], input[type="reset"] {
 	border: 1px solid blue;
 	background-color: rgb(200, 200, 200);
 	border-radius: 4px;
@@ -220,13 +223,23 @@ input[type="button"] {
 
 /* Details page */
 #details {
-	display: grid;
+	display: none; /* changed to grid on page switch */
 	grid-template-columns: 1fr 1fr 1fr;
 	
 	grid-gap: 20px;
 	padding: 20px 20px 20px 20px;
 
 	background-color: rgb(230, 230, 230);
+}
+
+#details input[name="close"] {
+	grid-column-start: 2;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#details #info {
+	grid-column-start: 1;
 }
 
 #details #images img {
@@ -249,10 +262,6 @@ input[type="button"] {
 
 #details #images {
 	text-align: center;
-}
-
-#details #images input {
-	margin-bottom: 15px; 
 }
 
 #details #castcrew {
@@ -286,4 +295,17 @@ input[type="button"] {
 
 #details #cast-crew-buttons .active {
 	background-color: white;
+}
+
+#details #info #text #movie_stats div {
+	display: inline;
+}
+
+@media (max-width: 800px) {
+	#details {
+		grid-template-columns: auto;
+	}
+	#details input[name="close"] {
+		grid-column-start: 1;
+	}
 }
